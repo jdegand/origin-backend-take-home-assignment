@@ -2,25 +2,27 @@ import * as z from "zod";
 
 const MARTIAL_STATUS_VALUES = ["single", "married"] as const;
 
-const OWNERSHIP_STATUS_VALUES = ["owned", "mortgaged"] as const;
+const OWNERSHIP_STATUS_VALUES = ["owned", "mortgaged", "none"] as const;
 
 export const ApplicantDataSchema = z.object({
   body: z.object({
-    age: z.number().gte(18),
-    dependents: z.number().nonnegative(),
-    house: z.nullable(
-      z.object({
+    personal: z.object({
+      age: z.number().gte(18).lte(85),
+      income: z.number().nonnegative(),
+      marital_status: z.enum(MARTIAL_STATUS_VALUES),
+    }),
+    house: z.object({
         ownership_status: z.enum(OWNERSHIP_STATUS_VALUES),
-      })
-    ),
-    income: z.number().nonnegative(),
-    marital_status: z.enum(MARTIAL_STATUS_VALUES),
-    risk_questions: z.array(z.boolean()),
-    vehicle: z.nullable(
-      z.object({
-        year: z.number(),
-      })
-    ),
+        dependents: z.number().nonnegative(),
+    }),
+    questions: z.object({
+      question1: z.string(),
+      question2: z.string(),
+      question3: z.string() 
+    }),
+    vehicle: z.object({
+        year: z.number().lte(new Date().getFullYear() + 1),
+    }),
   }),
 });
 

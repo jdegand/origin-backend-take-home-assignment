@@ -1,8 +1,14 @@
 import { Applicant } from "../../interfaces/Applicant";
 import { ReturnObject } from "../../interfaces/ReturnObject";
 
-export function getBaseScore(array: boolean[]) {
-  return array.filter(Boolean).length;
+export function getBaseScore(array: any) {
+  let count = 0;
+  for(const item of Object.values(array) ){
+    if(item == "true"){
+      count += 1
+    }
+  }
+  return count;
 }
 
 export function evaluateTotal(total: number) {
@@ -16,7 +22,7 @@ export function evaluateTotal(total: number) {
 }
 
 export function getScore(object: Applicant) {
-  const BASE_SCORE = getBaseScore(object.risk_questions);
+  const BASE_SCORE = getBaseScore(object.questions);
 
   const RETURN_OBJECT: ReturnObject = {
     auto: BASE_SCORE,
@@ -27,19 +33,19 @@ export function getScore(object: Applicant) {
 
   const YEAR = new Date().getFullYear() - 5;
 
-  if (object.age < 30) {
+  if (object.personal.age < 30) {
     RETURN_OBJECT.auto -= 2;
     RETURN_OBJECT.disability -= 2;
     RETURN_OBJECT.home -= 2;
     RETURN_OBJECT.life -= 2;
   }
-  if (object.age > 30 && object.age < 40) {
+  if (object.personal.age > 30 && object.personal.age < 40) {
     RETURN_OBJECT.auto -= 1;
     RETURN_OBJECT.disability -= 1;
     RETURN_OBJECT.home -= 1;
     RETURN_OBJECT.life -= 1;
   }
-  if (object.income > 200000) {
+  if (object.personal.income > 200000) {
     RETURN_OBJECT.auto -= 1;
     RETURN_OBJECT.disability -= 1;
     RETURN_OBJECT.home -= 1;
@@ -49,11 +55,11 @@ export function getScore(object: Applicant) {
     RETURN_OBJECT.disability += 1;
     RETURN_OBJECT.home += 1;
   }
-  if (object.dependents > 0) {
+  if (object.house.dependents > 0) {
     RETURN_OBJECT.disability += 1;
     RETURN_OBJECT.life += 1;
   }
-  if (object.marital_status === "married") {
+  if (object.personal.marital_status === "married") {
     RETURN_OBJECT.life += 1;
     RETURN_OBJECT.disability -= 1;
   }
@@ -67,7 +73,7 @@ export function getScore(object: Applicant) {
         ? "ineligible"
         : evaluateTotal(RETURN_OBJECT.auto),
     disability:
-      object.income === 0
+      object.personal.income === 0
         ? "ineligible"
         : evaluateTotal(RETURN_OBJECT.disability),
     home:

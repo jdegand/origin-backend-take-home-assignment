@@ -40,13 +40,23 @@ describe("POST /api/score", () => {
       .post("/api/score")
       .set("Accept", "application/json")
       .send({
-        age: 35,
-        dependents: 2,
-        house: { ownership_status: "owned" },
-        income: 0,
-        marital_status: "married",
-        risk_questions: [false, true, false],
-        vehicle: { year: 2018 },
+        "personal": {
+          "age": 35,
+          "income": 0,
+          "marital_status": "married"
+        },
+        "house": {
+          "ownership_status": "owned",
+          "dependents": 2
+        },
+        "vehicle": {
+          "year": 2018
+        },
+        "questions": {
+          "question1": "false",
+          "question2": "true",
+          "question3": "false"
+        }
       })
       .expect("Content-Type", /json/)
       .expect(200)
@@ -68,13 +78,23 @@ describe("POST /api/score", () => {
       .post("/api/score")
       .set("Accept", "application/json")
       .send({
-        age: 35,
-        dependents: 2,
-        house: { ownership_status: "owned" },
-        income: 200000,
-        marital_status: "married",
-        risk_questions: [true, true, true],
-        vehicle: { year: 2018 },
+        "personal": {
+          "age": 35,
+          "income": 200000,
+          "marital_status": "married"
+        },
+        "house": {
+          "ownership_status": "owned",
+          "dependents": 2
+        },
+        "vehicle": {
+          "year": 2018
+        },
+        "questions": {
+          "question1": "false",
+          "question2": "true",
+          "question3": "false"
+        }
       })
       .expect("Content-Type", /json/)
       .expect(200)
@@ -96,13 +116,23 @@ describe("POST /api/score", () => {
       .post("/api/score")
       .set("Accept", "application/json")
       .send({
-        age: 25,
-        dependents: 2,
-        house: { ownership_status: "owned" },
-        income: 200000,
-        marital_status: "married",
-        risk_questions: [true, true, true],
-        vehicle: { year: 2018 },
+        "personal": {
+          "age": 25,
+          "income": 200000,
+          "marital_status": "married"
+        },
+        "house": {
+          "ownership_status": "owned",
+          "dependents": 2
+        },
+        "vehicle": {
+          "year": 2018
+        },
+        "questions": {
+          "question1": "true",
+          "question2": "true",
+          "question3": "true"
+        }
       })
       .expect("Content-Type", /json/)
       .expect(200)
@@ -159,6 +189,15 @@ describe("POST /api/score", () => {
         marital_status: "single",
         risk_questions: [true, true, true],
         vehicle: null,
+      })
+      .send({
+        age: 45,
+        dependents: 2,
+        house: { ownership_status: "none" },
+        income: 50000,
+        marital_status: "single",
+        risk_questions: [true, true, true],
+        vehicle: { year: 1940 }, // problem - didn't make vehicle nullable in the angular rework
       })
       .expect("Content-Type", /json/)
       .expect(200)
