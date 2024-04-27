@@ -1,6 +1,6 @@
 # Origin Backend Take-Home Assignment
 
-This is solution to this [repo](https://github.com/OriginFinancial/origin-backend-take-home-assignment).
+This is solution to a previous version of Origin Financial's backend take home assignment [repo](https://github.com/OriginFinancial/origin-backend-take-home-assignment/tree/be22fc3e80c880e6d52e16c9ef481f2cd0f572b9).
 
 ## Screenshots
 
